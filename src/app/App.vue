@@ -1,6 +1,11 @@
+<script setup lang="ts">
+import { SiteFooter } from '@/widgets/site-footer'
+</script>
+
 <template>
   <div class="wrap">
     <RouterView />
+    <SiteFooter />
   </div>
 </template>
 

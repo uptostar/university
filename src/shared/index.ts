@@ -1,4 +1,5 @@
 export type { ElementName } from './model/types'
+export { DONATION_URL, AUTHOR, AUTHOR_URL } from './config/site'
 export {
   normalize,
   byRussianAlphabet,
