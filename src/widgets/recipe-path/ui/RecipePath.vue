@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useStored, type ElementName } from '@/shared'
+import { pluralize, useStored, type ElementName } from '@/shared'
 import { buildChain, chemistry, ChainStep } from '@/entities/recipe'
 import { ElementTile } from '@/entities/element'
 import { useSearchStore } from '@/features/element-search'
@@ -36,7 +36,7 @@ const candidates = computed(() => chemistry.elements.filter(search.matches).slic
         @click="chainOpen = !chainOpen"
       >
         <span class="chevron" :class="{ open: chainOpen }" aria-hidden="true">▸</span>
-        Цепочка с нуля — {{ steps.length }} шаг(ов)
+        Цепочка с нуля — {{ pluralize(steps.length, 'шаг', 'шага', 'шагов') }}
         <span v-if="!chainOpen" class="collapsed">развернуть</span>
       </button>
 

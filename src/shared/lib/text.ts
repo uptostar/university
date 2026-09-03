@@ -25,6 +25,26 @@ export function formatIn(days: number): string {
   return `через ${days} дн.`
 }
 
+/**
+ * Русское склонение после числа: plural(2, 'синтез', 'синтеза', 'синтезов') → 'синтеза'.
+ *
+ * Три формы: 1 синтез · 2–4 синтеза · 5–20 синтезов, и дальше по последней цифре,
+ * кроме 11–14 — они всегда как «много».
+ */
+export function plural(count: number, one: string, few: string, many: string): string {
+  const mod100 = Math.abs(count) % 100
+  const mod10 = mod100 % 10
+  if (mod100 >= 11 && mod100 <= 14) return many
+  if (mod10 === 1) return one
+  if (mod10 >= 2 && mod10 <= 4) return few
+  return many
+}
+
+/** Число вместе со склонённым словом: «3 синтеза». */
+export function pluralize(count: number, one: string, few: string, many: string): string {
+  return `${count} ${plural(count, one, few, many)}`
+}
+
 /** Двузначный порядковый номер: 1 → «01». */
 export function pad2(n: number): string {
   return String(n).padStart(2, '0')

@@ -1,5 +1,14 @@
 export type { ElementName } from './model/types'
-export { normalize, byRussianAlphabet, formatDay, formatIn, pad2, pad3 } from './lib/text'
+export {
+  normalize,
+  byRussianAlphabet,
+  formatDay,
+  formatIn,
+  plural,
+  pluralize,
+  pad2,
+  pad3,
+} from './lib/text'
 export { useStored } from './lib/storage'
 export { default as UiButton } from './ui/UiButton.vue'
 export { default as UiCheck } from './ui/UiCheck.vue'

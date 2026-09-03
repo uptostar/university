@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { formatDay, formatIn } from '@/shared'
+import { formatDay, formatIn, pluralize } from '@/shared'
 import { buildSchedule, SubjectCard, type ScheduledSubject } from '@/entities/subject'
 
 const router = useRouter()
@@ -11,7 +11,9 @@ const schedule = computed(() => buildSchedule())
 
 const summary = computed(() => {
   const { openCount, subjects, readyCount, next, daysToNext } = schedule.value
-  const head = `Открыто ${openCount} из ${subjects.length} · гайдов готово ${readyCount}`
+  const head =
+    `Открыто ${openCount} из ${subjects.length} · ` +
+    `готов${readyCount === 1 ? '' : 'о'} ${pluralize(readyCount, 'гайд', 'гайда', 'гайдов')}`
   if (!next) return `${head} · все предметы открыты`
   return `${head} · следующий ${formatIn(daysToNext)}, ${formatDay(next.unlockAt)}`
 })

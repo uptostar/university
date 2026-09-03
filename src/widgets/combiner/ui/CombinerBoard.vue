@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { ElementName } from '@/shared'
-import { chemistry, levelBadge, levelNote, levelTitle } from '@/entities/recipe'
+import { plural } from '@/shared'
+import { chemistry, levelNote, levelTitle } from '@/entities/recipe'
 import { ElementTile } from '@/entities/element'
 import { CombineSlots, useCombinerStore } from '@/features/combine-elements'
 import { useSearchStore } from '@/features/element-search'
@@ -67,7 +68,8 @@ const totalShown = computed(() =>
       </template>
       <template v-else>
         С <b>{{ slotA }}</b> комбинируется
-        <span class="num muted">{{ partners.length }}</span> элементов<template v-if="slotB">
+        <span class="num muted">{{ partners.length }}</span>
+        {{ plural(partners.length, 'элемент', 'элемента', 'элементов') }}<template v-if="slotB">
           · нажми другой, чтобы заменить B</template
         >
       </template>
@@ -76,18 +78,17 @@ const totalShown = computed(() =>
     <template v-if="!slotA">
       <section v-for="group in grouped" :key="group.key" class="group">
         <header class="head">
-          <span class="badge num">{{ levelBadge(group.depth) }}</span>
           <h3 class="title">{{ levelTitle(group.depth) }}</h3>
           <span class="count num">{{ group.tiles.length }}</span>
           <span class="note">{{ levelNote(group.depth) }}</span>
         </header>
 
+        <!-- Глубину на плитках не показываем: она одна на всю секцию и написана в заголовке. -->
         <div class="grid">
           <ElementTile
             v-for="tile in group.tiles"
             :key="tile.element"
             :element="tile.element"
-            :depth="group.depth"
             :obtained="progress.isMarked(tile.element)"
             :markable="!chemistry.isBase(tile.element)"
             @pick="combiner.pick"
@@ -138,15 +139,6 @@ const totalShown = computed(() =>
   padding-bottom: 8px;
   margin-bottom: 10px;
   border-bottom: 1px solid var(--line);
-}
-
-.badge {
-  background: var(--acc);
-  color: var(--onacc);
-  border-radius: 6px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .title {

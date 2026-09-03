@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { ElementName } from '@/shared'
+import { pluralize, type ElementName } from '@/shared'
 import { chemistry, levelBadge, levelNote, levelTitle } from '@/entities/recipe'
 import { ElementTile } from '@/entities/element'
 import { useSearchStore } from '@/features/element-search'
@@ -53,16 +53,12 @@ function barHeight(count: number): string {
     </div>
 
     <p class="summary num">
-      {{ total }} элементов · самый глубокий уровень — {{ deepest }}<template
-        v-if="search.isActive"
-      >
-        · найдено {{ found }}</template
-      >
+      {{ pluralize(total, 'элемент', 'элемента', 'элементов') }} · самый глубокий уровень —
+      {{ deepest }}<template v-if="search.isActive"> · найдено {{ found }}</template>
     </p>
 
     <section v-for="level in levels" :key="level.depth" class="level">
       <header class="head">
-        <span class="badge num">{{ levelBadge(level.depth) }}</span>
         <h2 class="name">{{ levelTitle(level.depth) }}</h2>
         <span class="count num">{{ level.elements.length }}</span>
         <span class="note">{{ levelNote(level.depth) }}</span>
@@ -149,15 +145,6 @@ function barHeight(count: number): string {
   padding-bottom: 8px;
   margin-bottom: 10px;
   border-bottom: 1px solid var(--line);
-}
-
-.badge {
-  background: var(--acc);
-  color: var(--onacc);
-  border-radius: 6px;
-  padding: 2px 8px;
-  font-size: 12px;
-  font-weight: 600;
 }
 
 .name {
