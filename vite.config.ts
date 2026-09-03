@@ -2,10 +2,10 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-// Сайт живёт на https://uptostar.github.io/university/ — отсюда base.
-// Если переедешь на свой домен или на <логин>.github.io, поставь '/'.
+// Сайт живёт на своём домене university-5rp.ru, то есть в корне — base остаётся '/'.
+// Если вернёшься на адрес вида <логин>.github.io/<репозиторий>/, поставь '/university/'.
 export default defineConfig({
-  base: '/university/',
+  base: '/',
   plugins: [vue()],
   resolve: {
     alias: {
