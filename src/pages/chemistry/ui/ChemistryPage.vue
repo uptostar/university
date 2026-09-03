@@ -54,7 +54,7 @@ function openInCombiner(element: ElementName): void {
     </div>
 
     <header class="screen-head">
-      <h1>Верстак <em>алхимика</em></h1>
+      <h1>Химия: <em>715 рецептов</em></h1>
       <nav class="tabs">
         <UiButton
           v-for="item in TABS"
@@ -68,6 +68,13 @@ function openInCombiner(element: ElementName): void {
       <div class="grow" />
       <ThemeToggle />
     </header>
+
+    <p class="intro">
+      Полный список синтезов для задания по химии в осеннем ивенте GTA 5 RolePlay. Выбираешь
+      элемент — в сетке остаются только те, с чем он реально смешивается, и на каждой плитке
+      подписан результат. Вкладка «Как сделать» строит цепочку с нуля до нужного элемента,
+      «Уровни» раскладывает все 720 по глубине крафта, «Список» ведёт чеклист полученного.
+    </p>
 
     <ElementSearch />
 
@@ -116,5 +123,12 @@ function openInCombiner(element: ElementName): void {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+}
+
+.intro {
+  color: var(--dim);
+  font-size: 13.5px;
+  max-width: 72ch;
+  margin: 2px 0 6px;
 }
 </style>
