@@ -17,6 +17,11 @@ export const router = createRouter({
       name: 'chemistry',
       component: () => import('@/pages/chemistry').then((m) => m.ChemistryPage),
     },
+    {
+      path: '/inf',
+      name: 'informatics',
+      component: () => import('@/pages/informatics').then((m) => m.InformaticsPage),
+    },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   scrollBehavior: () => ({ top: 0 }),

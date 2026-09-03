@@ -17,7 +17,12 @@ export interface Subject {
  */
 export const SUBJECTS: Subject[] = [
   { name: 'Педагогика', emoji: '📚' },
-  { name: 'Информатика', emoji: '💻' },
+  {
+    name: 'Информатика',
+    emoji: '💻',
+    route: 'informatics',
+    note: 'подбор пароля к терминалу',
+  },
   { name: 'Химия', emoji: '⚗️', route: 'chemistry', note: 'поиск, цепочки и чеклист' },
   { name: 'Предмет 04', emoji: '❔' },
   { name: 'Предмет 05', emoji: '❔' },

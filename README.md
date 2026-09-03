@@ -6,6 +6,11 @@ Feature-Sliced Design, деплой на GitHub Pages через Actions.
 **Главная** — 10 предметов, которые открываются по одному в день с 1 сентября. Даты считаются
 в браузере, вручную ничего разблокировать не надо.
 
+**Информатика** — решатель для взлома терминала. Вводишь слова с экрана, он подсказывает,
+какое жать следующим, и после каждого ответа отсеивает невозможное. Ход выбирается минимаксом:
+берётся слово, после которого даже при самом неудачном ответе останется меньше всего вариантов.
+На типичном экране из 18 слов это укладывается максимум в 4 попытки из 5.
+
 **Химия** — верстак алхимика на 715 рецептов:
 
 - **Комбинировать** — выбираешь элемент, сетка сужается до тех, с чем он реально смешивается;
@@ -41,10 +46,13 @@ Feature-Sliced Design. Слои сверху вниз, импорт разреш
 ```
 src/
 ├─ app/         инициализация: роутер, глобальные стили, токены темы
-├─ pages/       subjects (главная), chemistry (верстак)
-├─ widgets/     subject-grid, combiner, recipe-path, element-levels, recipe-book, element-detail
-├─ features/    combine-elements, element-search, track-progress, toggle-theme
-├─ entities/    element (иконки, плитки), recipe (граф синтезов), subject (расписание)
+├─ pages/       subjects (главная), chemistry (верстак), informatics (терминал)
+├─ widgets/     subject-grid, combiner, recipe-path, element-levels, recipe-book,
+│               element-detail, terminal-solver
+├─ features/    combine-elements, element-search, track-progress, toggle-theme,
+│               terminal-session
+├─ entities/    element (иконки, плитки), recipe (граф синтезов), subject (расписание),
+│               terminal (совпадения, фильтр кандидатов, минимакс)
 └─ shared/      ui-кит, утилиты, типы, реактивный localStorage
 ```
 
@@ -67,6 +75,7 @@ src/
 | `useProgressStore` | `features/track-progress` | что получено, счётчик и процент; пишет в `localStorage` |
 | `useSearchStore` | `features/element-search` | строка поиска и предикат `matches` для всех списков |
 | `useThemeStore` | `features/toggle-theme` | светлая/тёмная тема |
+| `useTerminalStore` | `features/terminal-session` | слова с экрана и сделанные попытки взлома |
 
 В компонентах состояние берётся через `storeToRefs` (иначе деструктуризация теряет
 реактивность), а экшены — прямо со стора: `combiner.pick(...)`.
