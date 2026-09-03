@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://university-5rp.ru/sitemap.xml

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=block">
+<style>
+  :root{
+    --bg:#101219; --bg2:#171a23; --bg3:#1e222d; --line:#2c313e;
+    --tx:#eae5da; --dim:#8b8b9c; --acc:#e0913f; --acc2:#54b8ac; --onacc:#1a1206;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1200px;height:630px}
+  body{
+    background:var(--bg);
+    font-family:'Golos Text',sans-serif;
+    color:var(--tx);
+    overflow:hidden;
+    position:relative;
+  }
+
+  /* тёплое свечение от акцента + сетка «тетрадного листа» */
+  .glow{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(900px 520px at 82% 12%, rgba(224,145,63,.20), transparent 62%),
+      radial-gradient(760px 520px at 6% 100%, rgba(84,184,172,.14), transparent 60%);
+  }
+  .grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,.032) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,.032) 1px, transparent 1px);
+    background-size:48px 48px;
+    mask-image:radial-gradient(120% 100% at 50% 40%, #000 35%, transparent 78%);
+  }
+
+  .frame{
+    position:absolute; inset:26px;
+    border:1px solid var(--line); border-radius:20px;
+    background:linear-gradient(160deg, rgba(23,26,35,.72), rgba(16,18,25,.35));
+  }
+  /* акцентная полоса слева */
+  .frame::before{
+    content:''; position:absolute; left:-1px; top:64px; bottom:64px; width:4px;
+    border-radius:4px; background:linear-gradient(180deg,var(--acc),var(--acc2));
+  }
+
+  .wrap{position:absolute; inset:26px; padding:60px 64px; display:flex; flex-direction:column; height:calc(630px - 52px)}
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:12px;
+    font-family:'JetBrains Mono',monospace; font-weight:600;
+    font-size:19px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--acc);
+  }
+  .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 5px rgba(224,145,63,.16)}
+
+  h1{
+    font-family:'Unbounded',sans-serif; font-weight:700;
+    font-size:78px; line-height:1.04; letter-spacing:-.018em;
+    margin-top:26px; max-width:790px;
+  }
+  h1 em{font-style:normal;color:var(--acc)}
+
+  .lead{
+    margin-top:22px; max-width:640px;
+    font-size:26px; line-height:1.42; color:var(--dim); font-weight:400;
+  }
+
+  .chips{display:flex; gap:12px; margin-top:auto; flex-wrap:wrap}
+  .chip{
+    display:flex; align-items:baseline; gap:9px;
+    padding:13px 20px; border:1px solid var(--line); border-radius:999px;
+    background:rgba(30,34,45,.65);
+    font-size:20px; font-weight:500; color:var(--tx);
+  }
+  .chip b{font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--acc); font-size:21px}
+  .chip.t b{color:var(--acc2)}
+
+  .url{
+    position:absolute; right:64px; bottom:60px;
+    font-family:'JetBrains Mono',monospace; font-size:21px; font-weight:600;
+    color:var(--dim); letter-spacing:.02em;
+  }
+  .url span{color:var(--acc)}
+
+  /* колба — тот же силуэт, что в фавиконке */
+  .flask{position:absolute; right:56px; top:78px; width:330px; height:330px; opacity:.97}
+  .flask .bubble{fill:var(--acc2)}
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="grid"></div>
+  <div class="frame"></div>
+
+  <svg class="flask" viewBox="0 0 64 64" fill="none">
+    <g transform="translate(0,1)">
+      <path d="M26 12v14L14.5 48a4 4 0 0 0 3.5 6h28a4 4 0 0 0 3.5-6L38 26V12"
+            stroke="#e0913f" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="M21 42h22l6 10a4 4 0 0 1-3.5 6h-27a4 4 0 0 1-3.5-6z" fill="#e0913f"/>
+      <path d="M23 12h18" stroke="#e0913f" stroke-width="3.2" stroke-linecap="round"/>
+      <circle class="bubble" cx="27" cy="47" r="2.4" opacity=".85"/>
+      <circle class="bubble" cx="36" cy="50" r="1.7" opacity=".7"/>
+      <circle class="bubble" cx="32.5" cy="38" r="1.9" opacity=".9"/>
+      <circle class="bubble" cx="26" cy="34.5" r="1.3" opacity=".7"/>
+    </g>
+  </svg>
+
+  <div class="wrap">
+    <div><span class="eyebrow"><span class="dot"></span>Ивент в GTA&nbsp;5&nbsp;RP</span></div>
+    <h1>Шпаргалки<br>к <em>экзаменам</em></h1>
+    <p class="lead">Рецепты химии с поиском и цепочками крафта, решатель для взлома терминала.</p>
+    <div class="chips">
+      <div class="chip"><b>715</b> рецептов химии</div>
+      <div class="chip t"><b>≤4</b> хода до терминала</div>
+      <div class="chip"><b>10</b> предметов</div>
+    </div>
+  </div>
+
+  <div class="url">university-5rp<span>.ru</span></div>
+</body>
+</html>
