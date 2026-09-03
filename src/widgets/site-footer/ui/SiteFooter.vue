@@ -5,11 +5,11 @@ import { AUTHOR, AUTHOR_URL, DONATION_URL } from '@/shared'
 <template>
   <footer v-if="AUTHOR || DONATION_URL" class="footer">
     <p v-if="AUTHOR" class="by">
-      Собрал
+      <span class="label">Powered by</span>
       <a v-if="AUTHOR_URL" :href="AUTHOR_URL" target="_blank" rel="noopener noreferrer">
         {{ AUTHOR }}
       </a>
-      <template v-else>{{ AUTHOR }}</template>
+      <b v-else>{{ AUTHOR }}</b>
     </p>
 
     <a
@@ -32,15 +32,31 @@ import { AUTHOR, AUTHOR_URL, DONATION_URL } from '@/shared'
   flex-wrap: wrap;
   margin-top: 40px;
   padding-top: 16px;
+  flex: 0 0 auto;
   border-top: 1px solid var(--line);
   font-size: 13px;
   color: var(--dim);
 }
 
+.by {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  opacity: 0.75;
+}
+
+.by b,
 .by a {
-  color: var(--dim);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  color: var(--tx);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .by a:hover {
