@@ -9,6 +9,12 @@
  */
 export const DONATION_URL = "https://www.donationalerts.com/r/yesentooky";
 
+/** Адрес сайта без слеша на конце. Нужен для canonical и Open Graph. */
+export const SITE_URL = 'https://university-5rp.ru'
+
+/** Название сайта — идёт в og:site_name и в микроразметку. */
+export const SITE_NAME = 'Шпаргалки к экзаменам'
+
 /** Подпись автора в подвале. Пустая строка — подписи не будет. */
 export const AUTHOR = "Yesentooky";
 

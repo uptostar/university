@@ -29,6 +29,10 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      # Pages отдаёт 404 на прямой заход по /chem. Копия index.html под именем 404.html
+      # возвращает приложение на любой путь, дальше маршрут разбирает роутер.
+      - run: cp dist/index.html dist/404.html
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
