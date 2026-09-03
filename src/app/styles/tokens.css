@@ -1,0 +1,52 @@
+/* Палитра, типографика и радиусы. Компоненты обращаются только к этим переменным,
+   поэтому тема переключается в одном месте.
+
+   Три состояния темы:
+   1. :root                                 — светлая (пергамент), она же дефолт
+   2. @media (prefers-color-scheme: dark)   — тёмная по настройке системы,
+      но с оговоркой :root:not([data-theme="light"]), чтобы ручной выбор победил
+   3. :root[data-theme="dark"]              — тёмная по ручному переключателю
+*/
+
+:root {
+  --bg: #f4f0e7;
+  --bg2: #fffdf8;
+  --bg3: #eae4d7;
+  --line: #dbd2c0;
+  --tx: #1b1710;
+  --dim: #6d6555;
+  --acc: #a85417;
+  --acc2: #1f6f6a;
+  --onacc: #fff7ee;
+
+  --r: 10px;
+  --font-display: 'Unbounded', 'Golos Text', sans-serif;
+  --font-body: 'Golos Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #101219;
+    --bg2: #171a23;
+    --bg3: #1e222d;
+    --line: #2c313e;
+    --tx: #eae5da;
+    --dim: #8b8b9c;
+    --acc: #e0913f;
+    --acc2: #54b8ac;
+    --onacc: #1a1206;
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg: #101219;
+  --bg2: #171a23;
+  --bg3: #1e222d;
+  --line: #2c313e;
+  --tx: #eae5da;
+  --dim: #8b8b9c;
+  --acc: #e0913f;
+  --acc2: #54b8ac;
+  --onacc: #1a1206;
+}
