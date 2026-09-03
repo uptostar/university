@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref } from 'vue'
-import { useElementSearch } from '../model/search'
+import { storeToRefs } from 'pinia'
+import { useSearchStore } from '../model/store'
 
-const { query } = useElementSearch()
+const { query } = storeToRefs(useSearchStore())
 const input = ref<HTMLInputElement | null>(null)
 
 /** «/» ставит курсор в поиск, Escape убирает — руки не уходят с клавиатуры. */

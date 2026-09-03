@@ -13,3 +13,10 @@ export interface Partner {
   element: ElementName
   results: ElementName[]
 }
+
+/** Ступень дерева: всё, что открывается ровно за `depth` синтезов от базовых элементов. */
+export interface Level {
+  /** 0 — базовые, дальше по возрастанию. -1 — недостижимые из базы. */
+  depth: number
+  elements: ElementName[]
+}

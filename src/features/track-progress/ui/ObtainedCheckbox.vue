@@ -1,27 +1,28 @@
 <script setup lang="ts">
-import type { ElementName } from '@/shared'
-import { useProgress } from '../model/progress'
+import { computed } from 'vue'
+import { UiCheck, type ElementName } from '@/shared'
+import { chemistry } from '@/entities/recipe'
+import { useProgressStore } from '../model/store'
 
-const props = defineProps<{ element: ElementName }>()
-const { has, toggle } = useProgress()
+const props = withDefaults(defineProps<{ element: ElementName; text?: string }>(), { text: '' })
+
+const progress = useProgressStore()
+
+/** Базовые элементы и «Время» есть всегда — отмечать нечего. */
+const locked = computed(() => chemistry.isBase(props.element))
+
+const label = computed(() =>
+  locked.value ? `${props.element}: доступен с самого начала` : `Получено: ${props.element}`,
+)
 </script>
 
 <template>
-  <input
-    type="checkbox"
-    class="checkbox"
-    :checked="has(props.element)"
-    :aria-label="`Получено: ${props.element}`"
-    @change="toggle(props.element, ($event.target as HTMLInputElement).checked)"
-  />
+  <UiCheck
+    :model-value="progress.has(element)"
+    :disabled="locked"
+    :label="label"
+    @update:model-value="progress.toggle(element, $event)"
+  >
+    <template v-if="text">{{ text }}</template>
+  </UiCheck>
 </template>
-
-<style scoped>
-.checkbox {
-  width: 19px;
-  height: 19px;
-  flex: 0 0 auto;
-  accent-color: var(--acc);
-  cursor: pointer;
-}
-</style>

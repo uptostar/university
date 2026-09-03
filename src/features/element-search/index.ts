@@ -1,2 +1,2 @@
-export { useElementSearch } from './model/search'
+export { useSearchStore } from './model/store'
 export { default as ElementSearch } from './ui/ElementSearch.vue'

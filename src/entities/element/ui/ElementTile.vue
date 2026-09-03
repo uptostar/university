@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ElementName } from '@/shared'
+import { UiCheck, type ElementName } from '@/shared'
 import ElementIcon from './ElementIcon.vue'
 
 withDefaults(
@@ -11,24 +11,38 @@ withDefaults(
     depth?: number
     /** Уже получен — гасим плитку. */
     obtained?: boolean
+    /** Показывать метку «получено». Плитка сама ничего не знает про прогресс — решает виджет. */
+    markable?: boolean
   }>(),
-  { hint: '', depth: undefined, obtained: false },
+  { hint: '', depth: undefined, obtained: false, markable: false },
 )
 
-defineEmits<{ pick: [ElementName] }>()
+defineEmits<{ pick: [ElementName]; toggle: [boolean] }>()
 </script>
 
 <template>
-  <button type="button" class="tile" :class="{ obtained }" @click="$emit('pick', element)">
-    <ElementIcon :element="element" />
-    <span class="name">
-      {{ element }}
-      <span v-if="hint" class="hint">= {{ hint }}</span>
-    </span>
+  <div class="tile" :class="{ obtained, markable }">
+    <button type="button" class="main" @click="$emit('pick', element)">
+      <ElementIcon :element="element" />
+      <span class="name">
+        {{ element }}
+        <span v-if="hint" class="hint">= {{ hint }}</span>
+      </span>
+    </button>
+
+    <UiCheck
+      v-if="markable"
+      class="mark"
+      round
+      :model-value="obtained"
+      :label="`Получено: ${element}`"
+      @update:model-value="$emit('toggle', $event)"
+    />
+
     <span v-if="depth !== undefined" class="depth" title="шагов от базовых элементов">
       {{ Number.isFinite(depth) ? depth : '—' }}
     </span>
-  </button>
+  </div>
 </template>
 
 <style scoped>
@@ -37,12 +51,6 @@ defineEmits<{ pick: [ElementName] }>()
   background: var(--bg2);
   border: 1px solid var(--line);
   border-radius: var(--r);
-  padding: 10px 26px 10px 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  text-align: left;
   overflow: hidden;
 }
 
@@ -51,9 +59,35 @@ defineEmits<{ pick: [ElementName] }>()
   background: var(--bg3);
 }
 
-.tile:focus-visible {
+.tile:focus-within {
+  border-color: var(--acc);
+}
+
+/* Основная кнопка занимает всю плитку, метка и глубина лежат поверх неё в углах. */
+.main {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 10px 10px 10px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.markable .main {
+  padding-right: 34px;
+}
+
+.tile:not(.markable) .main {
+  padding-right: 26px;
+}
+
+.main:focus-visible {
   outline: 2px solid var(--acc2);
-  outline-offset: 1px;
+  outline-offset: -2px;
+  border-radius: var(--r);
 }
 
 .name {
@@ -71,19 +105,27 @@ defineEmits<{ pick: [ElementName] }>()
   color: var(--acc2);
 }
 
+.mark {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+}
+
 .depth {
   position: absolute;
-  top: 5px;
-  right: 7px;
+  right: 9px;
+  bottom: 6px;
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-size: 10px;
   color: var(--dim);
   opacity: 0.7;
+  pointer-events: none;
 }
 
-.tile.obtained {
-  opacity: 0.42;
+/* Гасим только содержимое: сама метка должна оставаться читаемой и кликабельной. */
+.tile.obtained .main {
+  opacity: 0.45;
 }
 
 .tile.obtained .name {

@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { UiButton, type ElementName } from '@/shared'
 import { ElementIcon } from '@/entities/element'
 import { chemistry, RecipeRow } from '@/entities/recipe'
+import { ObtainedCheckbox } from '@/features/track-progress'
 
 const props = defineProps<{ element: ElementName; showChainButton?: boolean }>()
 defineEmits<{ pick: [ElementName]; chain: [ElementName] }>()
@@ -28,6 +29,7 @@ const shownUses = computed(() => usedIn.value.slice(0, VISIBLE_USES))
       <ElementIcon :element="element" :size="44" />
       <h3>{{ element }}</h3>
       <span class="depth num">шагов от базы: {{ Number.isFinite(depth) ? depth : '—' }}</span>
+      <ObtainedCheckbox :element="element" text="получено" class="mark" />
     </header>
 
     <h2 class="section-title">Как получить</h2>
@@ -93,6 +95,16 @@ const shownUses = computed(() => usedIn.value.slice(0, VISIBLE_USES))
   color: var(--dim);
   border-radius: 5px;
   padding: 2px 6px;
+}
+
+.mark {
+  margin-left: auto;
+}
+
+@media (max-width: 520px) {
+  .mark {
+    margin-left: 0;
+  }
 }
 
 .list {

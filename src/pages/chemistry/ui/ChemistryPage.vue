@@ -3,23 +3,25 @@ import { ref } from 'vue'
 import { UiButton, type ElementName } from '@/shared'
 import { ElementSearch } from '@/features/element-search'
 import { ThemeToggle } from '@/features/toggle-theme'
-import { useCombiner } from '@/features/combine-elements'
+import { useCombinerStore } from '@/features/combine-elements'
 import { CombinerBoard } from '@/widgets/combiner'
 import { RecipePath } from '@/widgets/recipe-path'
 import { RecipeBook } from '@/widgets/recipe-book'
+import { ElementLevels } from '@/widgets/element-levels'
 import { ElementDetail } from '@/widgets/element-detail'
 
-type Tab = 'mix' | 'path' | 'book'
+type Tab = 'mix' | 'path' | 'levels' | 'book'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'mix', label: 'Комбинировать' },
   { id: 'path', label: 'Как сделать' },
+  { id: 'levels', label: 'Уровни' },
   { id: 'book', label: 'Список' },
 ]
 
 const tab = ref<Tab>('mix')
 const target = ref<ElementName | null>(null)
-const { startFrom } = useCombiner()
+const combiner = useCombinerStore()
 
 function toTop(): void {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -40,7 +42,7 @@ function selectTarget(element: ElementName): void {
 
 /** Клик по ингредиенту в верстаке начинает с него новую пару. */
 function openInCombiner(element: ElementName): void {
-  startFrom(element)
+  combiner.startFrom(element)
   toTop()
 }
 </script>
@@ -85,6 +87,8 @@ function openInCombiner(element: ElementName): void {
         <ElementDetail :element="element" @pick="selectTarget" />
       </template>
     </RecipePath>
+
+    <ElementLevels v-else-if="tab === 'levels'" @select="showChain" />
 
     <RecipeBook v-else @select="showChain" />
   </div>

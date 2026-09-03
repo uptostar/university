@@ -1,2 +1,2 @@
-export { initTheme, useTheme } from './model/theme'
+export { useThemeStore } from './model/store'
 export { default as ThemeToggle } from './ui/ThemeToggle.vue'

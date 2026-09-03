@@ -2,29 +2,29 @@
 import { computed, ref } from 'vue'
 import { UiButton, normalize, type ElementName } from '@/shared'
 import { chemistry, RecipeRow } from '@/entities/recipe'
-import { useElementSearch } from '@/features/element-search'
-import { ObtainedCheckbox, ProgressBar, useProgress } from '@/features/track-progress'
+import { useSearchStore } from '@/features/element-search'
+import { ObtainedCheckbox, ProgressBar, useProgressStore } from '@/features/track-progress'
 
 const emit = defineEmits<{ select: [ElementName] }>()
 
-const { normalized } = useElementSearch()
-const { has, clear } = useProgress()
+const search = useSearchStore()
+const progress = useProgressStore()
 
 const hideObtained = ref(false)
 
 const rows = computed(() =>
   chemistry.recipes
     .filter((recipe) => {
-      if (!normalized.value) return true
+      if (!search.isActive) return true
       return [recipe.result, recipe.a, recipe.b].some((name) =>
-        normalize(name).includes(normalized.value),
+        normalize(name).includes(search.normalized),
       )
     })
-    .filter((recipe) => !hideObtained.value || !has(recipe.result)),
+    .filter((recipe) => !hideObtained.value || !progress.isMarked(recipe.result)),
 )
 
 function onClear(): void {
-  if (confirm('Очистить прогресс?')) clear()
+  if (confirm('Очистить прогресс?')) progress.clear()
 }
 </script>
 

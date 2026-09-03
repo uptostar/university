@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useProgress } from '../model/progress'
+import { storeToRefs } from 'pinia'
+import { useProgressStore } from '../model/store'
 
-const { count, total, percent } = useProgress()
+const { count, total, percent } = storeToRefs(useProgressStore())
 </script>
 
 <template>

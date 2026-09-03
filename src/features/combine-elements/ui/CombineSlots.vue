@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { UiButton } from '@/shared'
 import { ElementIcon } from '@/entities/element'
-import { useCombiner } from '../model/combiner'
+import { useCombinerStore } from '../model/store'
 
-const { slotA, slotB, results, clearA, clearB, reset } = useCombiner()
+const combiner = useCombinerStore()
+const { slotA, slotB, results } = storeToRefs(combiner)
 </script>
 
 <template>
   <div class="slots">
-    <button type="button" class="slot" :class="{ filled: slotA }" @click="clearA">
+    <button type="button" class="slot" :class="{ filled: slotA }" @click="combiner.clearA">
       <template v-if="slotA">
         <ElementIcon :element="slotA" />
         <b>{{ slotA }}</b>
@@ -18,7 +20,7 @@ const { slotA, slotB, results, clearA, clearB, reset } = useCombiner()
 
     <span class="op">+</span>
 
-    <button type="button" class="slot" :class="{ filled: slotB }" @click="clearB">
+    <button type="button" class="slot" :class="{ filled: slotB }" @click="combiner.clearB">
       <template v-if="slotB">
         <ElementIcon :element="slotB" />
         <b>{{ slotB }}</b>
@@ -40,7 +42,7 @@ const { slotA, slotB, results, clearA, clearB, reset } = useCombiner()
       <template v-else>…</template>
     </div>
 
-    <UiButton @click="reset">Сброс</UiButton>
+    <UiButton @click="combiner.reset">Сброс</UiButton>
   </div>
 </template>
 
