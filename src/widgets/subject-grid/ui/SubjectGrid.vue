@@ -1,28 +1,59 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDay, formatIn, pluralize } from '@/shared'
-import { buildSchedule, SubjectCard, type ScheduledSubject } from '@/entities/subject'
+import {
+  buildSchedule,
+  DAY_STARTS_AT_HOUR,
+  SubjectCard,
+  type ScheduledSubject,
+} from '@/entities/subject'
 
 const router = useRouter()
 
-/** Расписание считается один раз на монтирование — за время сессии день не сменится. */
-const schedule = computed(() => buildSchedule())
+/**
+ * Время держим реактивным: страницу могут оставить открытой на ночь, а день ивента
+ * переключается в 07:00 МСК — расписание должно обновиться само, без перезагрузки.
+ */
+const now = ref(new Date())
+let timer: number | undefined
+
+function refresh(): void {
+  now.value = new Date()
+}
+
+onMounted(() => {
+  timer = window.setInterval(refresh, 60_000)
+  document.addEventListener('visibilitychange', refresh)
+})
+
+onBeforeUnmount(() => {
+  if (timer) window.clearInterval(timer)
+  document.removeEventListener('visibilitychange', refresh)
+})
+
+const schedule = computed(() => buildSchedule(now.value))
 
 const summary = computed(() => {
-  const { openCount, subjects, readyCount, next, daysToNext } = schedule.value
+  const { openCount, subjects, readyCount, next, daysToNext, hoursToRollover } = schedule.value
   const head =
     `Открыто ${openCount} из ${subjects.length} · ` +
     `готов${readyCount === 1 ? '' : 'о'} ${pluralize(readyCount, 'гайд', 'гайда', 'гайдов')}`
   if (!next) return `${head} · все предметы открыты`
-  return `${head} · следующий ${formatIn(daysToNext)}, ${formatDay(next.unlockAt)}`
+
+  // За сутки до открытия полезнее часы: до 07:00 МСК может остаться и двадцать часов, и один.
+  const when =
+    daysToNext <= 1
+      ? `через ${pluralize(hoursToRollover, 'час', 'часа', 'часов')}`
+      : formatIn(daysToNext)
+  return `${head} · следующий ${when}, ${formatDay(next.unlockAt)}`
 })
 
 const todayLine = computed(() => {
   const { today, subjects } = schedule.value
   const fresh = subjects.find((subject) => subject.isFresh)
-  if (!fresh) return `Сегодня ${formatDay(today)}.`
-  return `Сегодня ${formatDay(today)} — открылся предмет ${String(fresh.index + 1).padStart(2, '0')}: ${fresh.name}.`
+  if (!fresh) return `День ивента — ${formatDay(today)}.`
+  return `День ивента — ${formatDay(today)}, открылся предмет ${String(fresh.index + 1).padStart(2, '0')}: ${fresh.name}.`
 })
 
 function open(subject: ScheduledSubject): void {
@@ -36,7 +67,8 @@ function open(subject: ScheduledSubject): void {
       <p class="eyebrow">Универ · ивент</p>
       <h1>Шпаргалки к экзаменам</h1>
       <p class="lead">
-        С 1 сентября открывается по одному предмету в день. Номер слева — день: 01 — первое число,
+        С 1 сентября открывается по одному предмету в день, новый день наступает
+        в {{ DAY_STARTS_AT_HOUR }}:00 по Москве. Номер слева — день: 01 — первое число,
         02 — второе, и так до десятого. Тыкай открытый — внутри разбор, поиск и чеклист.
       </p>
       <p class="today">{{ todayLine }}</p>
