@@ -1,0 +1,84 @@
+import type { SignSet } from './types'
+
+/**
+ * Таблицы знаков для «Эпиграфики». Письменность в задании переменная: в шапке стоит
+ * то «ЕГИПЕТ» («Стена храма»), то «СЛАВЯНЕ» («Славянский устав») — поэтому наборы
+ * лежат списком, и добавить следующий значит дописать сюда запись.
+ *
+ * Картинки — вырезанные плитки из самой игры (`public/signs/<id>/<знак>.png`), чтобы
+ * знак опознавался сличением картинки с картинкой, а не по названию.
+ */
+export const ALPHABETS: SignSet[] = [
+  {
+    id: 'egypt',
+    title: 'Египет',
+    script: 'одноконсонантные знаки, задание «Стена храма»',
+    source: 'таблица знаков из задания «Стена храма»',
+    signs: [
+      { id: 'vulture', letters: ['А'], picture: 'гриф' },
+      { id: 'leg', letters: ['Б'], picture: 'нога' },
+      { id: 'quail', letters: ['В', 'О', 'У'], picture: 'птенец перепела' },
+      { id: 'jar-stand', letters: ['Г'], picture: 'подставка для сосуда' },
+      { id: 'hand', letters: ['Д'], picture: 'лежащая рука' },
+      { id: 'reed', letters: ['Е', 'И', 'Й', 'Ы', 'Э'], picture: 'лист тростника' },
+      { id: 'quail-reed', letters: ['Ё', 'Ю'], picture: 'птенец и тростник' },
+      { id: 'pool', letters: ['Ж', 'Ш', 'Щ'], picture: 'пруд, прямоугольник' },
+      { id: 'bolt', letters: ['З'], picture: 'дверной засов' },
+      { id: 'basket', letters: ['К'], picture: 'корзина' },
+      { id: 'mouth', letters: ['Л', 'Р'], picture: 'рот, овал' },
+      { id: 'owl', letters: ['М'], picture: 'сова' },
+      { id: 'water', letters: ['Н'], picture: 'вода, зигзаг' },
+      { id: 'stool', letters: ['П'], picture: 'циновка, квадрат' },
+      { id: 'cloth', letters: ['С'], picture: 'сложенная ткань' },
+      { id: 'bread', letters: ['Т'], picture: 'хлебец, полукруг' },
+      { id: 'viper', letters: ['Ф'], picture: 'рогатая гадюка' },
+      { id: 'sieve', letters: ['Х'], picture: 'решето, полосатый круг' },
+      { id: 'cobra', letters: ['Ц'], picture: 'кобра' },
+      { id: 'rope', letters: ['Ч'], picture: 'путы, верёвка' },
+      { id: 'strokes', letters: ['Ъ'], picture: 'три черты' },
+      { id: 'stroke', letters: ['Ь'], picture: 'одна черта' },
+      { id: 'vulture-reed', letters: ['Я'], picture: 'гриф и тростник' },
+    ],
+  },
+  {
+    id: 'slavic',
+    title: 'Славяне',
+    script: 'славянский устав, задание «Славянский устав»',
+    source: 'таблица знаков из задания «Славянский устав»',
+    signs: [
+      { id: 'a', letters: ['А'] },
+      { id: 'b', letters: ['Б'] },
+      { id: 'v', letters: ['В'] },
+      { id: 'g', letters: ['Г'] },
+      { id: 'd', letters: ['Д'] },
+      { id: 'e', letters: ['Е'] },
+      { id: 'yo', letters: ['Ё'] },
+      { id: 'zh', letters: ['Ж'] },
+      { id: 'z', letters: ['З'] },
+      { id: 'i', letters: ['И'] },
+      { id: 'j', letters: ['Й'] },
+      { id: 'k', letters: ['К'] },
+      { id: 'l', letters: ['Л'] },
+      { id: 'm', letters: ['М'] },
+      { id: 'n', letters: ['Н'] },
+      { id: 'o', letters: ['О'] },
+      { id: 'p', letters: ['П'] },
+      { id: 'r', letters: ['Р'] },
+      { id: 's', letters: ['С'] },
+      { id: 't', letters: ['Т'] },
+      { id: 'u', letters: ['У'] },
+      { id: 'f', letters: ['Ф'] },
+      { id: 'h', letters: ['Х'] },
+      { id: 'c', letters: ['Ц'] },
+      { id: 'ch', letters: ['Ч'] },
+      { id: 'sh', letters: ['Ш'] },
+      { id: 'sch', letters: ['Щ'] },
+      { id: 'hard', letters: ['Ъ'] },
+      { id: 'y', letters: ['Ы'] },
+      { id: 'soft', letters: ['Ь'] },
+      { id: 'ee', letters: ['Э'] },
+      { id: 'yu', letters: ['Ю'] },
+      { id: 'ya', letters: ['Я'] },
+    ],
+  },
+]

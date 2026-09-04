@@ -12,11 +12,7 @@ const madeBy = computed(() => chemistry.recipesFor(props.element))
 const usedIn = computed(() => chemistry.usesOf(props.element))
 const depth = computed(() => chemistry.depthOf(props.element))
 
-const baseNote = computed(() =>
-  props.element === 'Время'
-    ? 'Открывается само после 100 элементов'
-    : 'Базовый элемент — есть с самого начала',
-)
+const baseNote = 'Базовый элемент — есть с самого начала'
 
 /** Показываем не больше 80 применений: у «Человека» их под сотню, это уже простыня. */
 const VISIBLE_USES = 80
