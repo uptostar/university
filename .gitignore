@@ -3,6 +3,9 @@ dist/
 *.local
 .vite/
 
+# Локальные настройки Claude Code: launch.json с командой запуска дев-сервера.
+.claude/
+
 .DS_Store
 Thumbs.db
 desktop.ini
